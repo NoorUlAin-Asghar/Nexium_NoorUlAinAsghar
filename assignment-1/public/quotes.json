@@ -1,0 +1,102 @@
+{
+  "motivation": [
+    { "quote": "Push yourself, because no one else is going to do it for you.", "author": "Unknown" },
+    { "quote": "Great things never come from comfort zones.", "author": "Unknown" },
+    { "quote": "Dream it. Wish it. Do it.", "author": "Unknown" }
+  ],
+  "life": [
+    { "quote": "Life is what happens when you're busy making other plans.", "author": "John Lennon" },
+    { "quote": "Keep smiling, because life is a beautiful thing.", "author": "Marilyn Monroe" },
+    { "quote": "Life is either a daring adventure or nothing at all.", "author": "Helen Keller" }
+  ],
+  "love": [
+    { "quote": "To love and be loved is to feel the sun from both sides.", "author": "David Viscott" },
+    { "quote": "Love all, trust a few, do wrong to none.", "author": "William Shakespeare" },
+    { "quote": "Being deeply loved gives you strength, while loving gives you courage.", "author": "Lao Tzu" }
+  ],
+  "wisdom": [
+    { "quote": "Knowing yourself is the beginning of all wisdom.", "author": "Aristotle" },
+    { "quote": "The only true wisdom is in knowing you know nothing.", "author": "Socrates" },
+    { "quote": "Wise men speak because they have something to say; fools because they have to say something.", "author": "Plato" }
+  ],
+  "courage": [
+    { "quote": "Courage is resistance to fear, mastery of fear—not absence of fear.", "author": "Mark Twain" },
+    { "quote": "You gain strength, courage, and confidence by facing your fears.", "author": "Eleanor Roosevelt" },
+    { "quote": "Courage is grace under pressure.", "author": "Ernest Hemingway" }
+  ],
+  "kindness": [
+    { "quote": "Kindness is a language the deaf can hear and the blind can see.", "author": "Mark Twain" },
+    { "quote": "Be kind whenever possible. It is always possible.", "author": "Dalai Lama" },
+    { "quote": "No act of kindness, no matter how small, is ever wasted.", "author": "Aesop" }
+  ],
+  "growth": [
+    { "quote": "Strength and growth come only through continuous effort and struggle.", "author": "Napoleon Hill" },
+    { "quote": "Growth is never by chance; it’s the result of working together.", "author": "James Cash Penney" },
+    { "quote": "Be not afraid of growing slowly, be afraid only of standing still.", "author": "Chinese Proverb" }
+  ],
+  "learning": [
+    { "quote": "Education is the most powerful weapon to change the world.", "author": "Nelson Mandela" },
+    { "quote": "Tell me and I forget. Teach me and I remember. Involve me and I learn.", "author": "Benjamin Franklin" },
+    { "quote": "Learning never exhausts the mind.", "author": "Leonardo da Vinci" }
+  ],
+  "change": [
+    { "quote": "Be the change you wish to see in the world.", "author": "Mahatma Gandhi" },
+    { "quote": "Change is the law of life.", "author": "John F. Kennedy" },
+    { "quote": "Progress is impossible without change.", "author": "George Bernard Shaw" }
+  ],
+  "humor": [
+    { "quote": "A day without laughter is a day wasted.", "author": "Charlie Chaplin" },
+    { "quote": "Behind every great man is a woman rolling her eyes.", "author": "Jim Carrey" },
+    { "quote": "I'm not arguing. I'm just explaining why I'm right.", "author": "Unknown" }
+  ],
+  "forgiveness": [
+    { "quote": "The weak can never forgive. Forgiveness is the attribute of the strong.", "author": "Mahatma Gandhi" },
+    { "quote": "To forgive is to set a prisoner free and discover that the prisoner was you.", "author": "Lewis B. Smedes" },
+    { "quote": "Forgiveness is not an occasional act, it is a constant attitude.", "author": "Martin Luther King Jr." }
+  ],
+  "faith": [
+    { "quote": "Faith is taking the first step even when you don’t see the whole staircase.", "author": "Martin Luther King Jr." },
+    { "quote": "To one with faith, no explanation is needed.", "author": "Thomas Aquinas" },
+    { "quote": "Believe you can and you're halfway there.", "author": "Theodore Roosevelt" }
+  ],
+  "happiness": [
+    { "quote": "Happiness is not something ready made. It comes from your own actions.", "author": "Dalai Lama" },
+    { "quote": "Enjoy your life—it's all that matters.", "author": "Audrey Hepburn" },
+    { "quote": "Count your age by friends, not years. Count your life by smiles, not tears.", "author": "John Lennon" }
+  ],
+  "focus": [
+    { "quote": "You can’t depend on your eyes when your imagination is out of focus.", "author": "Mark Twain" },
+    { "quote": "Starve your distractions, feed your focus.", "author": "Unknown" },
+    { "quote": "Focus on being productive instead of busy.", "author": "Tim Ferriss" }
+  ],
+  "discipline": [
+    { "quote": "Discipline is the bridge between goals and accomplishment.", "author": "Jim Rohn" },
+    { "quote": "Self-discipline is freedom.", "author": "Aristotle" },
+    { "quote": "We must all suffer one of two things: the pain of discipline or the pain of regret.", "author": "Jim Rohn" }
+  ],
+  "ambition": [
+    { "quote": "Ambition is enthusiasm with a purpose.", "author": "Frank Tyger" },
+    { "quote": "Keep away from those who try to belittle your ambitions.", "author": "Mark Twain" },
+    { "quote": "Big results require big ambitions.", "author": "Heraclitus" }
+  ],
+  "resilience": [
+    { "quote": "Fall seven times, stand up eight.", "author": "Japanese Proverb" },
+    { "quote": "It's not whether you get knocked down, it's whether you get up.", "author": "Vince Lombardi" },
+    { "quote": "Resilience is knowing that you are the only one that has the power to pick yourself up.", "author": "Mary Holloway" }
+  ],
+  "time": [
+    { "quote": "Time you enjoy wasting is not wasted time.", "author": "Bertrand Russell" },
+    { "quote": "Lost time is never found again.", "author": "Benjamin Franklin" },
+    { "quote": "The key is in not spending time, but in investing it.", "author": "Stephen R. Covey" }
+  ],
+  "creativity": [
+    { "quote": "Creativity is intelligence having fun.", "author": "Albert Einstein" },
+    { "quote": "You can’t use up creativity. The more you use, the more you have.", "author": "Maya Angelou" },
+    { "quote": "Every artist was first an amateur.", "author": "Ralph Waldo Emerson" }
+  ],
+  "leadership": [
+    { "quote": "Leadership is unlocking people’s potential to become better.", "author": "Bill Bradley" },
+    { "quote": "A leader is one who knows the way, goes the way, and shows the way.", "author": "John C. Maxwell" },
+    { "quote": "Leadership is not about titles, positions, or flowcharts. It is about one life influencing another.", "author": "John C. Maxwell" }
+  ]
+}
