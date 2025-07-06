@@ -130,7 +130,7 @@ export default function QuoteGenerator() {
                         </div>
                         <div className="h-12 flex items-end justify-end pr-4 pb-2">
                           <p className="text-sm text-blue-400 italic">
-                            — {author?.trim()}
+                            — {author?.trim() || "unknown"}
                           </p>
                         </div>
                       </div>
