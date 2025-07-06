@@ -4,20 +4,21 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import Head from "next/head";
 
 export default function QuoteGenerator() {
   const [topic, setTopic] = useState("");
-  const [prevTopic,setPrevTopic]=useState("");
+  const [prevTopic, setPrevTopic] = useState("");
   const [quotes, setQuotes] = useState<string[]>([]);
-  const [fallback, setFallback] = useState(false); //if the topic enetered has no quotes
+  const [fallback, setFallback] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   type Quote = {
-  quote: string;
-  author: string;
+    quote: string;
+    author: string;
   };
-
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
@@ -38,10 +39,9 @@ export default function QuoteGenerator() {
       const category = topic.trim().toLowerCase();
       let selectedQuotes = data[category];
 
-      // Fallback: if category not found or empty, use all quotes
       if (!selectedQuotes || selectedQuotes.length === 0) {
         setFallback(true);
-        const allQuotes = Object.values(data).flat(); // flatten all categories
+        const allQuotes = Object.values(data).flat();
         selectedQuotes = allQuotes;
       }
 
@@ -60,54 +60,87 @@ export default function QuoteGenerator() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <main className="max-w-md w-full p-4 space-y-6 bg-white rounded shadow">
-        <h1 className="text-3xl font-bold text-center">Quote Generator</h1>
-        
-        <div className="flex gap-2">
-          <Input
-            placeholder="Enter topic (e.g. motivation, love)"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
-            disabled={loading}
-          />
-          <Button 
-            onClick={handleGenerate} 
-            disabled={loading}
-          >
-            {loading ? "Generating..." : "Generate"}
-          </Button>
-        </div>
+    <>
+      <Head>
+        <link href="https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap" rel="stylesheet" />
+      </Head>
 
-        {/* Error Message */}
-        {error && (
-          <Card className="p-4 bg-red-50 text-red-600">
-            {error}
-          </Card>
-        )}
+      <div className="min-h-screen flex items-center justify-center bg-blue-50 bg-[url('/paper-texture.png')] bg-repeat px-2">
+        <main className="w-full max-w-4xl p-6 space-y-6 bg-white/90 backdrop-blur-sm rounded-xl shadow-md">
+          <h1 className="text-4xl font-bold text-center text-[#2d1e1e]">Quote Generator</h1>
 
-        {/* Results */}
-        {quotes.length > 0 &&(
-          <Card className="p-6 space-y-4">
-            <h2 className="text-xl font-semibold my-0"> {fallback? 'No quotes found for ' :'Quotes about '}
-            <span className="text-blue-600">{prevTopic}</span>:
-            </h2>
-           {fallback ? (
-              <h6 className="italic my-0 -mt-2 text-center">Generating random quotes...</h6>
-            ) : (
-              <hr className="border-t border-black w-1/2 mx-auto my-2" />
-            )}
-            <ul className="space-y-3">
-              {quotes.map((quote, i) => (
-                <li key={i} className="border-l-4 border-blue-200 pl-4">
-                  {quote}
-                </li>
-              ))}
-            </ul>
-          </Card>
-        )}
-      </main>
-    </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Input
+              placeholder="Enter topic (e.g. motivation, love)"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
+              disabled={loading}
+            />
+            <Button onClick={handleGenerate} disabled={loading}>
+              {loading ? "Generating..." : "Generate"}
+            </Button>
+          </div>
+
+          {error && (
+            <Card className="p-4 bg-red-100 text-red-700 font-medium border border-red-300">
+              {error}
+            </Card>
+          )}
+
+          {quotes.length > 0 && (
+            <div className="space-y-4">
+              <Card className="p-4 text-center bg-white border border-gray-200">
+                <h2 className="text-xl font-semibold text-black">
+                  {fallback ? "No quotes found for " : "Quotes about "}
+                  <span className="text-blue-400">{prevTopic}</span>
+                </h2>
+                {fallback ? (
+                  <p className="italic mt-1 text-sm text-gray-500">
+                    Showing random quotes instead...
+                  </p>
+                ) : (
+                  <hr className="border-t border-gray-400 w-1/2 mx-auto my-2" />
+                )}
+              </Card>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {quotes.map((quote, i) => {
+                  const [quoteText, author] = quote.split("—");
+
+                  return (
+                    <motion.div
+                      key={quote}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.2 }}
+                      className="relative"
+                    >
+                      <div className="w-5 h-5 bg-blue-400 rounded-full absolute top-[-8px] left-1/2 -translate-x-1/2 z-10 shadow-md border-4 border-black"></div>
+
+                      <div className="w-full h-64 bg-white border-[6px] border-black shadow-xl flex flex-col rounded-lg relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rotate-[2deg] before:z-[-1] before:bg-[#fefcf3] before:rounded-lg">
+                        <div className="bg-white border-b-[6px] border-black rounded-lg flex-1 flex items-center justify-center px-4 relative">
+                          <p
+                            className="text-black text-xl text-center"
+                            style={{ fontFamily: "'Just Another Hand', cursive" }}
+                          >
+                            “{quoteText.trim()}”
+                          </p>
+                        </div>
+                        <div className="h-12 flex items-end justify-end pr-4 pb-2">
+                          <p className="text-sm text-blue-400 italic">
+                            — {author?.trim()}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
+    </>
   );
-}
+} 
