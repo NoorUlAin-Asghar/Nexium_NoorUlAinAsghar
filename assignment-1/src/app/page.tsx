@@ -65,13 +65,14 @@ export default function QuoteGenerator() {
         <link href="https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap" rel="stylesheet" />
       </Head>
 
-      <div className="min-h-screen flex items-center justify-center bg-blue-50 bg-[url('/paper-texture.png')] bg-repeat px-2">
+      <div className="min-h-screen flex items-center justify-center bg-[url('/paper-texture.png')] bg-cover px-2">
         <main className="w-full max-w-4xl p-6 space-y-6 bg-white/90 backdrop-blur-sm rounded-xl shadow-md">
           <h1 className="text-4xl font-bold text-center text-[#2d1e1e]">Quote Generator</h1>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
-              placeholder="Enter topic (e.g. motivation, love)"
+              className="bg-white"
+              placeholder="Enter topic (e.g. motivation, life)"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
@@ -118,7 +119,7 @@ export default function QuoteGenerator() {
                     >
                       <div className="w-5 h-5 bg-blue-400 rounded-full absolute top-[-8px] left-1/2 -translate-x-1/2 z-10 shadow-md border-4 border-black"></div>
 
-                      <div className="w-full h-64 bg-white border-[6px] border-black shadow-xl flex flex-col rounded-lg relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rotate-[2deg] before:z-[-1] before:bg-[#fefcf3] before:rounded-lg">
+                      <div className="w-full h-64 bg-neutral-50 border-[6px] border-black shadow-xl flex flex-col rounded-lg relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rotate-[2deg] before:z-[-1] before:bg-[#fefcf3] before:rounded-lg">
                         <div className="bg-white border-b-[6px] border-black rounded-lg flex-1 flex items-center justify-center px-4 relative">
                           <p
                             className="text-black text-xl text-center"
