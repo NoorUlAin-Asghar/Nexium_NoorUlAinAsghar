@@ -30,8 +30,8 @@ A beautiful and minimalist quote generator built using **Next.js** and **ShadCN 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/quote-generator.git
-cd quote-generator
+https://github.com/NoorUlAin-Asghar/Nexium_NoorUlAinAsghar.git
+cd assignment-1
 ```
 
 ### 2. Install dependencies
