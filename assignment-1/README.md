@@ -26,7 +26,8 @@ A beautiful and minimalist quote generator built using **Next.js** and **ShadCN 
 ## 🖥️ Live Demo
 
 🚀 [View deployed app on Vercel](https://quote-generator-nine-delta.vercel.app/)
---
+
+---
 
 ## 📦 Getting Started
 
