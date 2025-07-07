@@ -67,7 +67,7 @@ export default function QuoteGenerator() {
 
       <div className="min-h-screen flex items-center justify-center bg-[url('/paper-texture.png')] bg-cover px-2">
         <main className="w-full max-w-4xl p-6 space-y-6 bg-white/90 backdrop-blur-sm rounded-xl shadow-md">
-          <h1 className="text-4xl font-bold text-center text-[#2d1e1e]">Quote Generator</h1>
+          <h1 className="text-4xl font-bold text-center text-black">Quote Generator</h1>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
