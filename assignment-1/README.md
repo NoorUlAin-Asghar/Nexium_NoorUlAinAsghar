@@ -21,9 +21,11 @@ A beautiful and minimalist quote generator built using **Next.js** and **ShadCN 
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.dev/) for prebuilt components
 - [Framer Motion](https://www.framer.com/motion/) for animations
-- [Google Fonts](https://fonts.google.com/) for handwriting effect
 
 ---
+## 🖥️ Live Demo
+🚀 [View deployed app on Vercel](https://quote-generator-nine-delta.vercel.app/)
+--
 
 ## 📦 Getting Started
 
