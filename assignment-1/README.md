@@ -8,12 +8,10 @@ A beautiful and minimalist quote generator built using **Next.js** and **ShadCN 
 
 - 🧠 **20+ Topics with quotes** (e.g. motivation, life, wisdom)
 - 🖼️ **Polaroid-style quote display**
-- 🖋️ **Handwriting-style fonts** for a more personal feel
 - 🌀 **Animated entry effects** using Framer Motion
-- 🌈 **Textured background** to resemble real paper
 - 📱 **Fully responsive** and mobile-friendly layout
 - 🚫 Graceful fallback when no quotes are found
-
+- ✅ Deployed on Vercel for live preview
 ---
 
 ## 🛠 Tech Stack
