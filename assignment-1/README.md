@@ -1,6 +1,6 @@
 # 🌟 Quote Generator
 
-A beautiful and minimalist quote generator built using **Next.js** and **ShadCN UI**, designed to deliver aesthetically pleasing, topic-based quotes with handwritten-style fonts, paper textures, and smooth animations.
+A beautiful and minimalist quote generator built using **Next.js** and **ShadCN UI**, designed to deliver topic-based quotes.
 
 ---
 
