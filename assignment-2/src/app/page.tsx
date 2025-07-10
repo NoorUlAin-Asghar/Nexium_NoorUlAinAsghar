@@ -14,12 +14,22 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { addSummary, getAllSummaries } from '@/lib/summary'
+
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [summary, setSummary] = useState<{ url: string; English: string; Urdu: string } | null>(null);
   const [history, setHistory] = useState<{ url: string; English: string; Urdu: string }[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
 
   const handleSummarize = async () => {
     if (!url.trim()){
@@ -29,19 +39,22 @@ export default function Home() {
     setLoading(true);
     if (!url) return;
     try{
-      const res = await fetch("/api", {
+      const res = await fetch("/api/summarizer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
       });
 
+      const result =await res.json();
       if(!res.ok){
-        const result=await res.json();
         const errorText=result.error;
         console.log("Error: ", errorText)
+        setError("Summarization failed. Reached API request limit");
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
+        return; // prevent continuing with invalid result
       }
 
-      const result =await res.json();
       console.log("Response from route.js: ", result)
       const {English, Urdu}=result
       const record = {
@@ -50,16 +63,51 @@ export default function Home() {
         Urdu,
       };
       setSummary(record);
-      setHistory([record,record,record])
+
+      try{
+       await addSummary(record.url, record.English, record.Urdu);
+      }
+      catch(err){
+        console.log("Error adding to db: ", err)
+        setError("Failed to add to database, try again later.");
+        setShowAlert(true); // Show alert
+        setTimeout(() => setShowAlert(false), 3000); // Hide after 3s
+      }
     }
     catch(err){
       console.log("Error: ", err)
+      setError("Failed to summarize, try again later.");
+      setShowAlert(true); // Show alert
+      setTimeout(() => setShowAlert(false), 3000); // Hide after 3s
     }
     finally{
       setLoading(false);
     }
 
   };
+
+useEffect(() => {
+  const fetchSummaries = async () => {
+    try{
+      const data = await getAllSummaries();
+      const formatted = data.map((row: any) => ({
+        url: row.url,
+        English: row.english,
+        Urdu: row.urdu,
+      }));
+      setHistory(formatted);
+    }
+    catch(err){
+      setError("Failed to get history, try again later.");
+      setShowAlert(true); // Show alert
+      setTimeout(() => setShowAlert(false), 3000); // Hide after 3s
+    }
+  };
+
+  fetchSummaries();
+}, []);
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-950 to-stone-500 text-[#f6f5f5] px-4 py-10">
@@ -109,12 +157,19 @@ export default function Home() {
                   </Button>
                 </div>
 
-                {loading&&(
-                  <div>
-
+                {loading && (
+                  <div className="flex justify-center items-center mt-6 space-x-4">
+                    <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <p className="italic text-[#f6f5f5]">Reading the document</p>
                   </div>
                 )}
-                
+                {showAlert && (
+                  <Alert className="bg-transparent border-neutral-300 mt-4 flex flex-col items-center text-center">
+                      <AlertTitle className="text-2xl">⚠️</AlertTitle>
+                      <AlertDescription className=" text-red-400 italic">{error}</AlertDescription>
+                  </Alert>
+                )}
+
                 {summary && !loading &&(
                   <div className="space-y-3 mt-4 text-[#f6f5f5]">
                     <h3 className="text-2xl font-semibold">📜English Summary:</h3>
