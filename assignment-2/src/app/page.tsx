@@ -33,13 +33,13 @@ export default function Home() {
   const fetchSummaries = async () => {
     try {
       const data = await getAllSummaries();
-      const formatted = data.map((row: any) => ({
+      const formatted = data.map((row: { url: string; english: string; urdu: string }) => ({
         url: row.url,
         English: row.english,
         Urdu: row.urdu,
       }));
       setHistory(formatted);
-    } catch (err) {
+    } catch{
       setError("Failed to get history, try again later.");
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
