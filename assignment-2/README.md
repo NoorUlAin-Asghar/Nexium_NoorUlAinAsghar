@@ -31,7 +31,7 @@ A powerful and minimalistic blog summarization app built with **Next.js** and **
 
 ## 🖥️ Live Demo
 
-🚀 *View deployed app on Vercel (optional)*
+🚀 [View deployed app on Vercel](https://blog-summarizer-fd1vavx98-noorulain-asghars-projects.vercel.app/)
 
 ---
 
@@ -82,7 +82,7 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 │   |           └── route.js       # API route calling ApyHub and translator   
 │   └── lib/
 │       ├── summary.js             # Supabase functions (addSummary, getAllSummaries, getSummaryByUrl)
-│       └── supabaseClient.js      # Initializes the Supabase client using the URL and anon key stored in `.env.local`.
+│       └── supabaseClient.js      # Initializes the Supabase client using the URL and anon key stored in .env
 ├── .env                           # Environment variables
 ├── tailwind.config.ts
 ├── tsconfig.json
