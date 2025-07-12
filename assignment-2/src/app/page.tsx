@@ -19,7 +19,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert"
-import { addSummary, getAllSummaries } from '@/lib/summary'
+import { addSummary, getAllSummaries, getSummaryByUrl } from '@/lib/summary'
 
 
 export default function Home() {
@@ -30,14 +30,47 @@ export default function Home() {
   const [error, setError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
+  const fetchSummaries = async () => {
+    try {
+      const data = await getAllSummaries();
+      const formatted = data.map((row: any) => ({
+        url: row.url,
+        English: row.english,
+        Urdu: row.urdu,
+      }));
+      setHistory(formatted);
+    } catch (err) {
+      setError("Failed to get history, try again later.");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+    }
+  };
+
+  useEffect(() => {
+    fetchSummaries(); // on page load
+  }, []);
+
 
   const handleSummarize = async () => {
     if (!url.trim()){
       console.warn("Enter URL")
       return;
     }
+
     setLoading(true);
-    if (!url) return;
+    setSummary(null);
+    // Check if already summarized
+    const existing = await getSummaryByUrl(url);
+    if (existing) {
+      setSummary({
+        url: existing.url,
+        English: existing.english,
+        Urdu: existing.urdu,
+      });
+      setLoading(false);
+      return;
+    }
+
     try{
       const res = await fetch("/api/summarizer", {
         method: "POST",
@@ -65,7 +98,8 @@ export default function Home() {
       setSummary(record);
 
       try{
-       await addSummary(record.url, record.English, record.Urdu);
+        await addSummary(record.url, record.English, record.Urdu);
+        await fetchSummaries(); // fetch again after successful addition
       }
       catch(err){
         console.log("Error adding to db: ", err)
@@ -85,28 +119,6 @@ export default function Home() {
     }
 
   };
-
-useEffect(() => {
-  const fetchSummaries = async () => {
-    try{
-      const data = await getAllSummaries();
-      const formatted = data.map((row: any) => ({
-        url: row.url,
-        English: row.english,
-        Urdu: row.urdu,
-      }));
-      setHistory(formatted);
-    }
-    catch(err){
-      setError("Failed to get history, try again later.");
-      setShowAlert(true); // Show alert
-      setTimeout(() => setShowAlert(false), 3000); // Hide after 3s
-    }
-  };
-
-  fetchSummaries();
-}, []);
-
 
 
   return (
@@ -177,7 +189,7 @@ useEffect(() => {
                       {summary.English}
                     </p>
                     <h3 className="text-2xl text-right font-semibold"> اردو ترجمہ ✒️</h3>
-                    <p className="text-right bg-transparent p-4 rounded-lg border border-neutral-300 whitespace-pre-wrap">
+                    <p className="bg-transparent p-4 rounded-lg border border-neutral-300 whitespace-pre-wrap">
                       {summary.Urdu}
                     </p>
                   </div>
@@ -207,8 +219,10 @@ useEffect(() => {
                             <CardContent className="p-4 text-[#f6f5f5] space-y-1">
                               <p className="text-sm text-gray-400 truncate">🔗 {item.url}</p>
                               <hr className="border-t w-1/2 mx-auto my-2" />
-                              <p className="break-words"><strong>English:</strong> {item.English.slice(0, 150)}{item.English.length > 150 && "..."}</p>
-                              <p className="break-words text-right"><strong> :اردو</strong> {item.Urdu.slice(0, 120)}{item.Urdu.length > 120 && "..."}</p>
+                              <p><strong>English:</strong></p>
+                              <p className="break-words">{item.English.slice(0, 200)}{item.English.length > 200 && "..."}</p>
+                              <p className="text-right"><strong> :اردو</strong></p>
+                              <p className="break-words">{item.Urdu.slice(0, 200)}{item.Urdu.length > 200 && "..."}</p>
                               <p className="text-right text-sm italic">Click to view more →</p>
                             </CardContent>
                           </Card>
