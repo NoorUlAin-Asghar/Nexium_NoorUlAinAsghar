@@ -217,12 +217,10 @@ export default function Home() {
                           <Card className="bg-transparent border border-neutral-300 cursor-pointer 
                                           hover:shadow-lg w-full max-w-none mr-2 p-0" > {/* Allow full width */}
                             <CardContent className="p-4 text-[#f6f5f5] space-y-1">
-                              <p className="text-sm text-gray-400 truncate">🔗 {item.url}</p>
+                              <p className="text-sm text-gray-400 break-all whitespace-pre-wrap">🔗 {item.url}</p>
                               <hr className="border-t w-1/2 mx-auto my-2" />
-                              <p><strong>English:</strong></p>
-                              <p className="break-words">{item.English.slice(0, 200)}{item.English.length > 200 && "..."}</p>
-                              <p className="text-right"><strong> :اردو</strong></p>
-                              <p className="break-words">{item.Urdu.slice(0, 200)}{item.Urdu.length > 200 && "..."}</p>
+                              <p className="break-words"><strong>English: </strong>{item.English.slice(0, 150)}{item.English.length > 150 && "..."}</p>
+                              <p className="break-words"><strong> اردو: </strong>{item.Urdu.slice(0, 150)}{item.Urdu.length > 150 && "..."}</p>
                               <p className="text-right text-sm italic">Click to view more →</p>
                             </CardContent>
                           </Card>
