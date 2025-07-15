@@ -36,7 +36,7 @@ export async function POST(req) {
     const summarizedText = result.data?.summary || "No summary returned.";
     console.log("Summarized Text:", summarizedText);
 
-    const urduText = translate(summarizedText);
+    const urduText = await translateToUrdu(summarizedText);
 
     return NextResponse.json({
       English: summarizedText,
@@ -50,125 +50,44 @@ export async function POST(req) {
 }
 
 
-const enToUrBlogDictionary = {
-  "introduction": "تعارف",
-  "summary": "خلاصہ",
-  "in conclusion": "آخر میں",
-  "important": "اہم",
-  "update": "تازہ کاری",
-  "feature": "خصوصیت",
-  "benefit": "فائدہ",
-  "guide": "رہنمائی",
-  "tips": "مشورے",
-  "tricks": "چالاکیاں",
-  "how to": "کیسے کریں",
-  "step by step": "قدم بہ قدم",
-  "solution": "حل",
-  "problem": "مسئلہ",
-  "example": "مثال",
-  "case study": "مطالعہ",
-  "research": "تحقیق",
-  "experience": "تجربہ",
-  "performance": "کارکردگی",
-  "comparison": "موازنہ",
-  "review": "جائزہ",
-  "recommendation": "تجویز",
-  "useful": "مفید",
-  "effective": "موثر",
-  "increase": "اضافہ",
-  "decrease": "کمی",
-  "productivity": "پیداواری صلاحیت",
-  "motivation": "حوصلہ افزائی",
-  "mental health": "ذہنی صحت",
-  "lifestyle": "طرز زندگی",
-  "habit": "عادت",
-  "routine": "معمول",
-  "technology": "ٹیکنالوجی",
-  "software": "سافٹ ویئر",
-  "application": "درخواست",
-  "tool": "اوزار",
-  "platform": "پلیٹ فارم",
-  "online": "آن لائن",
-  "user": "صارف",
-  "content": "مواد",
-  "comment": "تبصرہ",
-  "share": "شئیر کریں",
-  "like": "پسند کریں",
-  "subscribe": "سبسکرائب کریں",
-  "author": "مصنف",
-  "reader": "قارئ",
-  "audience": "ناظرین",
-  "engagement": "مشغولیت",
-  "growth": "ترقی",
-  "strategy": "حکمت عملی",
-  "plan": "منصوبہ",
-  "goal": "مقصد",
-  "success": "کامیابی",
-  "failure": "ناکامی",
-  "challenge": "چیلنج",
-  "lesson": "سبق",
-  "ai": "مصنوعی ذہانت",
-  "increasing": "بڑھتا ہوا",
-  "role": "کردار",
-  "daily": "روزمرہ",
-  "life": "زندگی",
-  "concerns": "خدشات",
-  "impact": "اثرات",
-  "human": "انسانی",
-  "intelligence": "ذہانت",
-  "offers": "فراہم کرتا ہے",
-  "efficiency": "سہولت",
-  "hinder": "روکنا",
-  "critical": "تنقیدی",
-  "thinking": "سوچ",
-  "replacing": "تبدیل کرنا",
-  "cognitive": "ذہنی",
-  "tasks": "کام",
-  "reliance": "انحصار",
-  "writing": "لکھنا",
-  "essays": "مضامین",
-  "decline": "کمی",
-  "creativity": "تخلیقی صلاحیت",
-  "depth": "گہرائی",
-  "thought": "سوچ",
-  "tendency": "رجحان",
-  "reinforce": "مضبوط کرنا",
-  "existing": "موجودہ",
-  "patterns": "طریقے",
-  "stifle": "روکنا",
-  "innovation": "جدت",
-  "intellectual": "ذہنی",
-  "stagnation": "جمود",
-  "sentient": "حساس",
-  "pain": "درد",
-  "emotion": "جذبہ",
-  "joy": "خوشی",
-  "depression": "اداسی",
-  "memory": "یادداشت",
-  "cognition": "ادراک",
-  "intelligence": "ذہانت",
-  "behavior": "رویہ",
-  "cooperation": "تعاون",
-  "experience": "محسوس کرنا",
-  "legal": "قانونی",
-  "protection": "تحفظ",
-  "ethical": "اخلاقی",
-  "treatment": "سلوک",
-  "recognize": "تسلیم کرنا",
-  "disregard": "نظرانداز کرنا",
-  "call": "مطالبہ کرنا",
-  "accordingly": "مناسب ردعمل دینا"
-};
+async function translateToUrdu(text) {
+  const maxBytes = 500;
+  const encoder = new TextEncoder();
+  const sentences = text.match(/[^.!?]+[.!?]*\s*/g) || [text]; // split by sentence
 
+  let chunks = [];
+  let currentChunk = "";
 
-function translate(text) {
-  return text
-  .split(/\s+/) // split by spaces
-  .map((word) => {
-    // Remove punctuation for matching
-    const cleanWord = word.toLowerCase().replace(/[.,?!;()"]/g, '');
-    const translated = enToUrBlogDictionary[cleanWord];
-    return translated ? translated : word; // fallback to original word
-  })
-  .join(' ');
+  for (let sentence of sentences) {
+    const testChunk = currentChunk + sentence;
+    const byteLength = encoder.encode(testChunk).length;
+
+    if (byteLength > maxBytes) {
+      if (currentChunk) chunks.push(currentChunk.trim());
+      currentChunk = sentence;
+    } else {
+      currentChunk = testChunk;
+    }
+  }
+  if (currentChunk) chunks.push(currentChunk.trim());
+
+  // Translate all chunks in sequence
+  const translations = [];
+  for (let chunk of chunks) {
+    const encoded = encodeURIComponent(chunk);
+    const res = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encoded}&langpair=en|ur`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    const translated = data.responseData?.translatedText || "[❌ Translation failed]";
+    translations.push(translated);
+  }
+
+  return translations.join(" ");
 }

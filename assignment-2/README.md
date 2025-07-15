@@ -8,7 +8,7 @@ A powerful and minimalistic blog summarization app built with **Next.js** and **
 
 - 📄 Summarize any blog by simply pasting its URL
 - 🧠 Summaries generated using **ApyHub AI Summarization API**
-- 🌐 Partial Urdu translation via a custom dictionary-based converter
+- 🌐 Urdu translation via a **MyMemory Translation API**
 - 🕘 Displays summarization history using **Supabase** as the backend
 - 📂 Persists summaries to a cloud database
 - ↺ Graceful fallback UI on error (e.g., API fail or DB issue)
@@ -26,6 +26,7 @@ A powerful and minimalistic blog summarization app built with **Next.js** and **
 - [shadcn/ui](https://ui.shadcn.dev/) for UI components
 - [Supabase](https://supabase.com/) for database and storage
 - [ApyHub API](https://apyhub.com/)for AI-powered blog summarization
+- [MyMemory API](https://mymemory.translated.net/) for English to Urdu translation
 
 ---
 
@@ -79,7 +80,7 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 │   │   ├── page.tsx               # Main UI
 │   │   └── api/
 │   |       └── summarizer/
-│   |           └── route.js       # API route calling ApyHub and translator   
+│   |           └── route.js       # API route calling ApyHub and MyMemory   
 │   └── lib/
 │       ├── summary.js             # Supabase functions (addSummary, getAllSummaries, getSummaryByUrl)
 │       └── supabaseClient.js      # Initializes the Supabase client using the URL and anon key stored in .env
@@ -102,8 +103,10 @@ Allows 5 free api tries per day
 
 ### 🌐 Urdu Translation
 
-We use a **custom-built dictionary** to convert commonly used blog terms from English to Urdu. You can expand the dictionary in `api/summarizer/route.js`.
-
+Used to fetch blog summaries from a provided URL.\
+API: `https://api.mymemory.translated.net/get?q=${text}&langpair=en|ur`\
+Docs: [MyMemory Translated URL](https://mymemory.translated.net/doc/spec.php)
+Free, anonymous usage is limited to 5000 chars/day.
 ---
 
 ## 📃 Database
@@ -121,20 +124,7 @@ Supabase is used to:
 1. User pastes a blog URL
 2. App checks if summary for this URL already exists in Supabase
 3. If not, it calls ApyHub’s summarization API
-4. The English summary is then translated to Urdu (partial)
+4. The English summary is then translated to Urdu
 5. Both summaries are saved to Supabase and shown on the UI
 6. User can view summary history via the History tab
 
----
-
-## 📂 How to Add Urdu Translations
-
-Edit the dictionary in `api/summarizer/route.js` and add more entries:
-
-```js
-const enToUrBlogDictionary = {
-  "summary": "خلاصہ",
-  "emotion": "جذبہ",
-  // Add more here...
-};
-```

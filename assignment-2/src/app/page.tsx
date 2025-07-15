@@ -189,7 +189,7 @@ export default function Home() {
                       {summary.English}
                     </p>
                     <h3 className="text-2xl text-right font-semibold"> اردو ترجمہ ✒️</h3>
-                    <p className="bg-transparent p-4 rounded-lg border border-neutral-300 whitespace-pre-wrap">
+                    <p className="text-right bg-transparent p-4 rounded-lg border border-neutral-300 whitespace-pre-wrap">
                       {summary.Urdu}
                     </p>
                   </div>
@@ -220,7 +220,8 @@ export default function Home() {
                               <p className="text-sm text-gray-400 break-all whitespace-pre-wrap">🔗 {item.url}</p>
                               <hr className="border-t w-1/2 mx-auto my-2" />
                               <p className="break-words"><strong>English: </strong>{item.English.slice(0, 150)}{item.English.length > 150 && "..."}</p>
-                              <p className="break-words"><strong> اردو: </strong>{item.Urdu.slice(0, 150)}{item.Urdu.length > 150 && "..."}</p>
+                              <p className="break-words text-right"><strong> :اردو</strong></p>
+                              <p className="break-words text-right">{item.Urdu.slice(0, 95)}{item.Urdu.length > 95}</p>
                               <p className="text-right text-sm italic">Click to view more →</p>
                             </CardContent>
                           </Card>
@@ -246,7 +247,7 @@ export default function Home() {
                             </div>
                             <div>
                               <h4 className="font-semibold text-right mb-2"> :اردو 🌙</h4>
-                              <div className="p-3 bg-stone-800 rounded-md whitespace-pre-wrap break-words max-w-full overflow-auto">
+                              <div className="p-3 text-right bg-stone-800 rounded-md whitespace-pre-wrap break-words max-w-full overflow-auto">
                                 {item.Urdu}
                               </div>
                             </div>
