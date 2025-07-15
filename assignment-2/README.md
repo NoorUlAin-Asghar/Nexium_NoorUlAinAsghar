@@ -32,7 +32,7 @@ A powerful and minimalistic blog summarization app built with **Next.js** and **
 
 ## 🖥️ Live Demo
 
-🚀 [View deployed app on Vercel](https://blog-summarizer-fd1vavx98-noorulain-asghars-projects.vercel.app/)
+🚀 [View deployed app on Vercel](https://blog-summarizer-delta.vercel.app/)
 
 ---
 
