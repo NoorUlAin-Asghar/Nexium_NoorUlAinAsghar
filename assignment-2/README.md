@@ -106,8 +106,7 @@ Allows 5 free api tries per day
 Used to fetch blog summaries from a provided URL.\
 API: `https://api.mymemory.translated.net/get?q=${text}&langpair=en|ur`\
 Docs: [MyMemory Translated URL](https://mymemory.translated.net/doc/spec.php)
-Free, anonymous usage is limited to 5000 chars/day.
----
+Free, anonymous usage is limited to 5000 chars/day
 
 ## 📃 Database
 
