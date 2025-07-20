@@ -32,7 +32,7 @@ A powerful and minimalistic blog summarization app built with **Next.js** and **
 
 ## 🖥️ Live Demo
 
-🚀 [View deployed app on Vercel](https://blog-summarizer-fd1vavx98-noorulain-asghars-projects.vercel.app/)
+🚀 [View deployed app on Vercel](https://blog-summarizer-delta.vercel.app/)
 
 ---
 
@@ -98,16 +98,15 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Used to fetch blog summaries from a provided URL.\
 API: `https://api.apyhub.com/ai/summarize-url`\
-Docs: [ApyHub Summarize URL](https://apyhub.com/utility/ai-summarize)
+Docs: [ApyHub Summarize URL](https://apyhub.com/utility/ai-summarize) \
 Allows 5 free api tries per day
 
 ### 🌐 Urdu Translation
 
 Used to fetch blog summaries from a provided URL.\
 API: `https://api.mymemory.translated.net/get?q=${text}&langpair=en|ur`\
-Docs: [MyMemory Translated URL](https://mymemory.translated.net/doc/spec.php)
-Free, anonymous usage is limited to 5000 chars/day.
----
+Docs: [MyMemory Translated URL](https://mymemory.translated.net/doc/spec.php) \
+Free, anonymous usage is limited to 5000 chars/day
 
 ## 📃 Database
 
