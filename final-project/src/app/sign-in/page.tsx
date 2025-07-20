@@ -11,15 +11,33 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Link from "next/link"
-
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import supabase from "@/lib/supabaseClient";
+import { toast } from "sonner";
+
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] =useState(false);
+  const searchParams = useSearchParams();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const err = searchParams.get("error");
+    setError(err);
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (error === "unauthorized") {
+      toast.error("Your session has expired or is invalid. Please log in again.");
+    }
+    else if (error==="access_denied")
+      toast.error("Login link expired. Please sign in again.");
+  }, [error]);
+  
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +46,7 @@ export default function AuthPage() {
     const { error } = await supabase.auth.signInWithOtp({ 
       email,
       options: {
-      emailRedirectTo: "http://localhost:3000", // or your deployed URL
+      emailRedirectTo: "http://localhost:3000/", // successfully redirect to their dashboard
     },});
 
     if (error) {

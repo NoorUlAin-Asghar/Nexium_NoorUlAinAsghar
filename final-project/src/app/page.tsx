@@ -1,8 +1,31 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import supabase from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check if a session exists (i.e., user signed in via magic link)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        router.push("/dashboard"); // Redirect to dashboard if session is active
+      }
+    });
+  }, [router, supabase]);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+
+    if (hash.includes("error=access_denied") && hash.includes("otp_expired")) {
+      router.replace("/sign-in?error=access_denied");
+    }
+  }, []);
+
   return (
   <>
     <div className="min-h-[66vh] flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5] text-white text-center px-4">

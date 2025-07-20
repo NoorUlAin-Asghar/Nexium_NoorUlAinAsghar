@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Dancing_Script } from "next/font/google";
 import "./globals.css";
-import { LayoutWrapper } from "@/components/layout-wrapper";
-
+import { Toaster } from "sonner"
+import { Navbar } from '@/components/navbar'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +34,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
       >
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <Navbar/>
+        {children}
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
