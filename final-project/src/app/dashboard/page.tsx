@@ -33,32 +33,14 @@ export default function Dashboard() {
     router.push("/generate");
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push("/sign-in");
-  };
-
   return (
     <ProtectedRoute>
       <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-5xl font-bold mb-2 text-[#008080] font-dancing">Dashboard</h1>
+              <h1 className="text-5xl font-bold mb-2 text-black font-dancing">Dashboard</h1>
               <p className="text-gray-600">Welcome, <span className="font-medium text-teal-700">{userEmail}</span></p>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
-            >
-              Logout
-            </button>
-          </div>
-
-          <div className="flex justify-between items-center mt-6">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-800">Total Pitches</h2>
-              <p className="text-2xl font-bold text-teal-700">{pitches.length}</p>
             </div>
             <button
               onClick={handleNewPitch}
@@ -68,10 +50,17 @@ export default function Dashboard() {
             </button>
           </div>
 
+          <div className="flex justify-between items-center mt-6">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800">Total Pitches</h2>
+              <p className="text-2xl font-bold text-teal-700">{pitches.length}</p>
+            </div>
+          </div>
+
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Your Previous Pitches</h2>
             {pitches.length === 0 ? (
-              <p className="text-gray-500">You haven’t generated any pitches yet.</p>
+              <p className="text-gray-500">You haven't generated any pitches yet.</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {pitches.map((pitch) => (

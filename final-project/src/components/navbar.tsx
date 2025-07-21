@@ -2,22 +2,50 @@
 
 import * as React from "react"
 import Link from "next/link"
-
+import { useState, useEffect } from "react"
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { usePathname } from 'next/navigation'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
+import { ChevronDown, User } from "lucide-react"
+import { usePathname, useRouter } from 'next/navigation'
+import supabase from "@/lib/supabaseClient";
 
 export function Navbar() {
   const pathname = usePathname()
   const hideNavbarOn = ['/sign-in']
   const minimalNavbar = hideNavbarOn.includes(pathname)
+  const [userEmail, setUserEmail] = useState("")
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser()
+      if (user) {
+        setUserEmail(user.email || "")
+        setIsLoggedIn(true)
+      }
+    }
+
+    getUser()
+  }, [])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    localStorage.clear() // Clear localStorage
+    router.push("/sign-in") // Redirect to sign-in
+    setIsLoggedIn(false);
+  }
 
   return (
     <nav className="px-3 py-1 shadow-md">
@@ -38,21 +66,41 @@ export function Navbar() {
           <div className="flex justify-end">
             <NavigationMenu>
               <NavigationMenuList>
-                <NavigationMenuItem>
+                {/* <NavigationMenuItem>
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/docs">Generate</Link>
                   </NavigationMenuLink>
-                </NavigationMenuItem>
+                </NavigationMenuItem> */}
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/docs">Docs</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+                {isLoggedIn? 
+                <>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem> 
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center gap-1 px-3 py-2 font-medium rounded-md hover:bg-gray-100">
+                    <User className="w-4 h-4" />
+                    <span>{userEmail}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleSignOut}>Sign Out</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                </>
+                :
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/sign-in">Sign In</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+                } 
               </NavigationMenuList>
             </NavigationMenu>
           </div>

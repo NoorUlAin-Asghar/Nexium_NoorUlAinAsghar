@@ -61,7 +61,7 @@ export default function AuthPage() {
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <h1 className="text-5xl text-center italic font-bold font-dancing text-black mb-[5vh]">Welcome to Pitch Generator</h1>
+        <h1 className="text-5xl text-center font-bold font-dancing text-black mb-[5vh]">Welcome to Pitch Generator</h1>
         <CardTitle>Sign In / Sign Up</CardTitle>
         <CardDescription>
           Enter your email. We'll send you a login link.

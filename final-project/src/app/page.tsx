@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,13 @@ import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
+  const [auth, setAuth]=useState(false);
 
   useEffect(() => {
     // Check if a session exists (i.e., user signed in via magic link)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        router.push("/dashboard"); // Redirect to dashboard if session is active
+        setAuth(true)
       }
     });
   }, [router, supabase]);
@@ -36,7 +37,7 @@ export default function Home() {
         Craft your perfect pitch in seconds — whether it's for your startup, a job application, or even a school project.
       </p>
 
-      <Link href="/sign-in" passHref>
+      <Link href={auth?"/generate":"/sign-in"} passHref>
         <Button
           className="font-dancing bg-black text-white font-black text-2xl px-5 py-5 rounded-2xl hover:bg-black cursor-pointer active:bg-transparent active:text-black"
         >
