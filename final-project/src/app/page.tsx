@@ -31,7 +31,7 @@ export default function Home() {
   <>
     <div className="min-h-[66vh] flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5] text-white text-center px-4">
       <h1 className="font-dancing text-5xl md:text-6xl font-semibold">
-        Welcome to <span className="text-black">Pitch Generator</span>
+        Welcome to <span className="text-black">Pitch Writer</span>
       </h1>
       <p className="text-lg md:text-xl max-w-2xl">
         Craft your perfect pitch in seconds — whether it's for your startup, a job application, or even a school project.

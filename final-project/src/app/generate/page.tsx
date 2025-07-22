@@ -16,23 +16,44 @@ export default function GeneratePitchCard() {
   const [customType, setCustomType] = useState("");
   const [customTone, setCustomTone] = useState("");
   const [pitch, setPitch] = useState("");
+  const [generate, setGenerate]=useState(false);
+  const [temp, setTemp]=useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const finalType = type === "others" ? customType : type;
+    setType(finalType)
     const finalTone = tone === "others" ? customTone : tone;
-
-    setPitch(
-      `🎯 Title: ${title}\n📦 Description: ${description}\n📣 Type: ${finalType}\n🎙️ Tone: ${finalTone}\n\n✅ Your pitch will be generated here...`
-    );
+    setTone(finalTone)
+    setGenerate(true);
+    setTemp(
+      `🎯 Title: ${title}\n📦 Description: ${description}\n📣 Type: ${finalType}\n🎙️ Tone: ${finalTone}\n\n✅ Writing your pitch, please wait...`
+    )
   };
+
+  try{
+    const res = await fetch("/api/pitch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title, description, type, tone
+      }),
+    });
+
+      const data = await res.json();
+      console.log(data.pitch);
+
+  }
+  catch(err){
+
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
     
     <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl">
       <CardHeader>
-        <CardTitle className="text-5xl text-center font-dancing font-bold mb-2">Generate a New Pitch</CardTitle>
+        <CardTitle className="text-5xl text-center font-dancing font-bold mb-2">Write a New Pitch</CardTitle>
         <CardDescription>Fill in the details to get your pitch instantly.</CardDescription>
       </CardHeader>
 
@@ -123,11 +144,19 @@ export default function GeneratePitchCard() {
         <CardFooter className="flex flex-col items-stretch space-y-4 mt-4">
           <Button type="submit" className="bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">Generate Pitch</Button>
 
-          {pitch && (
-            <div className="bg-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap border">
-              {pitch}
-            </div>
-          )}
+          { generate &&(
+            <div className="bg-transparent border-[#008080] p-4 rounded-lg text-sm whitespace-pre-wrap border">
+              {temp}
+            </div>)}
+          {!generate && pitch &&(
+            <Textarea
+                id="pitch"
+                value={pitch}
+                onChange={(e) => setPitch(e.target.value)}
+                required
+                className="resize-none max-h-40 overflow-y-auto"
+              />
+          ) }
         </CardFooter>
       </form>
     </Card>

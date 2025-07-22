@@ -55,7 +55,7 @@ export function Navbar() {
           <NavigationMenuList className="flex space-x-2">
             <NavigationMenuItem>
               <NavigationMenuLink asChild className="text-3xl font-extrabold font-dancing">
-                <Link href="/">Pitch Generator</Link>
+                <Link href="/">Pitch Writer</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
