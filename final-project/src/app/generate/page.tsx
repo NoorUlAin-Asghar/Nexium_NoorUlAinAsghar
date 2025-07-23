@@ -19,7 +19,7 @@ export default function GeneratePitchCard() {
   const [generate, setGenerate]=useState(false);
   const [temp, setTemp]=useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const finalType = type === "others" ? customType : type;
     setType(finalType)
@@ -27,25 +27,31 @@ export default function GeneratePitchCard() {
     setTone(finalTone)
     setGenerate(true);
     setTemp(
-      `🎯 Title: ${title}\n📦 Description: ${description}\n📣 Type: ${finalType}\n🎙️ Tone: ${finalTone}\n\n✅ Writing your pitch, please wait...`
+      `🎯 Title: ${title}\n📦 Description: ${description}\n📣 Type: ${finalType}\n🎙️ Tone: ${finalTone}\n`
     )
+
+    try{
+      const res = await fetch("/api/pitch-writer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title, description, type, tone
+        }),
+      });
+
+        const data = await res.json();
+        console.log("Pitch received: " ,data.pitch);
+        setPitch(data.pitch)
+        setGenerate(false);
+
+    }
+    catch(err){
+
+    }
   };
 
-  try{
-    const res = await fetch("/api/pitch", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title, description, type, tone
-      }),
-    });
-
-      const data = await res.json();
-      console.log(data.pitch);
-
-  }
-  catch(err){
-
+  const savePitch=()=>{
+    
   }
 
   return (
@@ -147,15 +153,26 @@ export default function GeneratePitchCard() {
           { generate &&(
             <div className="bg-transparent border-[#008080] p-4 rounded-lg text-sm whitespace-pre-wrap border">
               {temp}
+            <div className="flex justify-center items-center mt-2 space-x-2">
+              <div className="w-4 h-4 border-2 border-[#008080] border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-[#008080] font-dancing font-bold">Generating Your Pitch, Please Wait</p>
+            </div>
             </div>)}
-          {!generate && pitch &&(
+          { !generate && pitch &&(
+            <>
             <Textarea
                 id="pitch"
                 value={pitch}
                 onChange={(e) => setPitch(e.target.value)}
-                required
-                className="resize-none max-h-40 overflow-y-auto"
+                className="resize max-h-[50vh] overflow-y-auto"
               />
+            <div className="flex justify-end mt-2">
+                <p className="text-sm text-muted-foreground italic mr-4">Feel free to make edits before saving...</p>
+                <Button onClick={savePitch} className="h-8 px-3 text-sm bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">
+                Save
+              </Button>
+          </div>
+          </>
           ) }
         </CardFooter>
       </form>

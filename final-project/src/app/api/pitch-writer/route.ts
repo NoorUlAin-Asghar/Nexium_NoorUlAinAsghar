@@ -31,6 +31,7 @@ export async function POST(req: Request) {
     }
 
     const pitch = result.choices?.[0]?.message?.content || "No pitch generated.";
+	console.log("Pitch generated: " , pitch)
 
     return NextResponse.json({ pitch });
 	}
