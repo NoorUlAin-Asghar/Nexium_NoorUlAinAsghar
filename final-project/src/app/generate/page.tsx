@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { savePitchToDB } from "@/lib/pitch-db";
 import supabase from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function GeneratePitchCard() {
   const [title, setTitle] = useState("");
@@ -51,7 +52,8 @@ export default function GeneratePitchCard() {
 
     }
     catch(err){
-
+      console.log(err)
+      toast.error("Couldn't generate pitch")
     }
   };
 

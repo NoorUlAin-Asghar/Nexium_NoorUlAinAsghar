@@ -64,7 +64,7 @@ export default function AuthPage() {
         <h1 className="text-5xl text-center font-bold font-dancing text-black mb-[5vh]">Welcome to Pitch Writer</h1>
         <CardTitle>Sign In / Sign Up</CardTitle>
         <CardDescription>
-          Enter your email. We'll send you a login link.
+          Enter your email. We&apos;ll send you a login link.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleMagicLink}>

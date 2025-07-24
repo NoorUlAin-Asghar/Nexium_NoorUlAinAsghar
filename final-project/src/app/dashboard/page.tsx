@@ -23,12 +23,20 @@ import { motion } from "framer-motion";
 import { Plus } from "lucide-react"
 import { toast } from "sonner";
 
+type Pitch = {
+  id: string;
+  title: string;
+  body: string;
+  created_at: Date; // or Date if you want to parse it
+};
+
+
 export default function Dashboard() {
   const [userEmail, setUserEmail] = useState("");
-  const [pitches, setPitches] = useState<any[]>([]);
+  const [pitches, setPitches] = useState<Pitch[]>([]);
   const [count,setCount]=useState(0)
   const router = useRouter();
-  const [selectedPitch, setSelectedPitch] = useState<any | null>(null);
+  const [selectedPitch, setSelectedPitch] = useState<Pitch | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedBody, setEditedBody] = useState("");
   const [loading,setLoading]=useState(false)
@@ -136,7 +144,7 @@ export default function Dashboard() {
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Your Previous Pitches</h2>
             {pitches.length === 0 ? (
-              <p className="text-gray-500">You haven't generated any pitches yet.</p>
+              <p className="text-gray-500">You haven&apos;t generated any pitches yet.</p>
             ) : (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

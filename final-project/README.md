@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🎯 Pitch Writer
 
-First, run the development server:
+Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You can create, edit, and manage tailored pitches for job applications, cold emails, or personal branding — all in one place.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- ✍️ **Generate personalized pitches** using role, goals, and tone preferences.
+- 📝 **Edit and delete** generated pitches.
+- 🎨 **Customize pitch tone** (professional, casual, confident, etc.).
+- 🔒 **Private storage** via Supabase – your pitches are visible only to you.
+- 🔁 **Live updates** – changes reflect instantly.
+- 💬 **Toasts** for feedback on user actions.
+
+---
+
+## ⚙️ Tech Stack
+
+- [Next.js](https://nextjs.org/) – React framework for frontend/backend.
+- [Tailwind CSS](https://tailwindcss.com/) – Utility-first CSS framework.
+- [Framer Motion](https://www.framer.com/motion/) – For UI animations.
+- [Supabase](https://supabase.com/) – Auth + database storage.
+- [Hugging Face API](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1?client=fetch) – For AI pitch generation (Mixtral-8x7B-Instruct).
+
+---
+
+## 🧠 How It Works
+
+1. User fills in title, description, type and tone.
+2. Data is sent to Hugging Face API using fetch.
+3. The response (AI-generated pitch) is shown.
+4. Users can edit, save, or delete pitches.
+5. All data is stored and retrieved securely via Supabase.
+
+---
+
+## 🔐 Auth & Data
+
+- Email-based authentication via Supabase Magic Link.
+- RLS policies ensure only logged-in users access their own content.
+- No third-party data sharing.
+
+---
+
+## 📂 Project Structure (Simplified)
+
+```
+pages/
+│
+├── index.tsx           # Homepage / Dashboard
+├── login.tsx           # Auth screen
+├── doc.tsx             # Documentation Page
+├── api/                # API route for Hugging Face interaction
+└── ...
+components/
+  ├── PitchCard.tsx     # UI for each pitch block
+  └── Toast.tsx         # Notification system
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📄 Documentation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See full documentation at: [`/doc`](https://your-site.vercel.app/doc)  
+Or check out [`DocumentationPage.jsx`](./app/docs/page.tsx) in the codebase.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+git clone https://github.com/NoorUlAin-Asghar/Nexium_NoorUlAinAsghar.git
+cd final-project
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+You’ll need:
+- A Supabase project
+- Supabase keys in `.env.local`
+- A Hugging Face API token
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📎 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License – free to use, modify, and distribute.
+
+---
+
+© 2025 Pitch Writer. All rights reserved.

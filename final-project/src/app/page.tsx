@@ -17,7 +17,7 @@ export default function Home() {
         setAuth(true)
       }
     });
-  }, [router, supabase]);
+  }, [router]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -25,7 +25,7 @@ export default function Home() {
     if (hash.includes("error=access_denied") && hash.includes("otp_expired")) {
       router.replace("/sign-in?error=access_denied");
     }
-  }, []);
+  }, [router]);
 
   return (
   <>
@@ -34,7 +34,7 @@ export default function Home() {
         Welcome to <span className="text-black">Pitch Writer</span>
       </h1>
       <p className="text-lg md:text-xl max-w-2xl">
-        Craft your perfect pitch in seconds — whether it's for your startup, a job application, or even a school project.
+        Craft your perfect pitch in seconds — whether it&apos;s for your startup, a job application, or even a school project.
       </p>
 
       <Link href={auth?"/generate":"/sign-in"} passHref>
