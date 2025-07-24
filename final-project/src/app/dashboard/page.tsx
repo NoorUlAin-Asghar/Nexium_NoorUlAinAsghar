@@ -19,6 +19,9 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { saveChangesToDb, deletePitchFromDb } from "@/lib/pitch-db";
+import { motion } from "framer-motion";
+import { Plus } from "lucide-react"
+import { toast } from "sonner";
 
 export default function Dashboard() {
   const [userEmail, setUserEmail] = useState("");
@@ -29,10 +32,20 @@ export default function Dashboard() {
   const [editedTitle, setEditedTitle] = useState("");
   const [editedBody, setEditedBody] = useState("");
   const [loading,setLoading]=useState(false)
+  const [message, setMessage]= useState<string | null>(null);
+  const [status,setStatus]=useState<string | null>(null);
 
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    if (status==="success")
+      toast.success(message)
+    else if(status==="danger")
+      toast.error(message)
+
+  }, [message,status]);
 
     const getData = async () => {
     try {
@@ -57,7 +70,9 @@ export default function Dashboard() {
     try{
       setLoading(true);
       console.log("Saving", id, newTitle, newBody);
-      await saveChangesToDb(id,newTitle,newBody)
+      const res=await saveChangesToDb(id,newTitle,newBody)
+      setMessage(res.message);
+      setStatus(res.status)
       await getData();
     }
     finally{
@@ -69,7 +84,9 @@ export default function Dashboard() {
     try{
       setLoading(true)
       console.log("Deleting", id);
-      await deletePitchFromDb(id)
+      const res=await deletePitchFromDb(id)
+      setMessage(res.message);
+      setStatus(res.status)
       await getData();
       
     }
@@ -82,8 +99,8 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/20 backdrop-blur-sm">
-          <div className="w-10 h-10 border-4 border-black border-t-transparent rounded-full animate-spin mr-4"></div>
-          <p className="text-black font-dancing text-6xl font-bold">Loading...</p>
+          <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin mr-4"></div>
+          <p className="text-white font-dancing text-6xl font-bold">Loading...</p>
         </div>
       </div>
     );
@@ -98,12 +115,14 @@ export default function Dashboard() {
             <div>
               <h1 className="text-5xl font-bold mb-2 text-black font-dancing">Dashboard</h1>
               <p className="text-gray-600">Welcome, <span className="font-medium text-[#008080]">{userEmail}</span></p>
+              <p className="text-gray-600 font-mdeium">Your personal space to create and track ideas ✨</p>
             </div>
             <button
               onClick={handleNewPitch}
-              className="px-3 py-3 bg-[#008080] text-white rounded-md shadow-md hover:bg-teal-800"
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-[#008080] text-white rounded-2xl shadow-md hover:bg-teal-800 transition-all duration-300 ease-in-out font-semibold text-base tracking-wide hover:shadow-lg"
             >
-              + Generate New Pitch
+              <Plus className="w-4 h-4" />
+              Generate New Pitch
             </button>
           </div>
 
@@ -119,6 +138,11 @@ export default function Dashboard() {
             {pitches.length === 0 ? (
               <p className="text-gray-500">You haven't generated any pitches yet.</p>
             ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {pitches.map((pitch,i) => (
                   <Sheet key={i}>
@@ -129,7 +153,7 @@ export default function Dashboard() {
                           setEditedTitle(pitch.title || "");
                           setEditedBody(pitch.body || "");
                         }}
-                        className="bg-[#008080] text-white p-4 rounded-md hover:drop-shadow-2xl transition hover:cursor-pointer"
+                        className="bg-[#008080] text-white p-4 rounded-md hover:drop-shadow-2xl transition hover:cursor-pointer "
                       >
                         <h3 className="font-medium truncate">{pitch.title || "Untitled Pitch"}</h3>
                         <p className="text-sm text-white mt-1 italic truncate">{pitch.body}</p>
@@ -190,6 +214,7 @@ export default function Dashboard() {
                   </Sheet>
                 ))}
               </div>
+              </motion.div>
             )}
           </div>
         </div>

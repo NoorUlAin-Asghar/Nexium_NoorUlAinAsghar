@@ -24,9 +24,11 @@ export async function savePitchToDB({
 
     if (error) {
         console.error("Error saving pitch:", error.message);
+        return {"message":"Unable to save pitch"};
     }
     else{
         console.log("pitch successfully added to DB")
+        return {"message":"Pitch saved successfully."};
     }
 }
 
@@ -66,19 +68,19 @@ export async function getUserPitchesWithEmail() {
 }
 
 export async function saveChangesToDb(pitchId:string, newTitle:string, newBody:string) {
-  const { data, error } = await supabase
-    .from("pitches")
-    .update({ title: newTitle, body: newBody, updated_at: new Date().toISOString() })
-    .eq("id", pitchId);
+    const { data, error } = await supabase
+        .from("pitches")
+        .update({ title: newTitle, body: newBody, updated_at: new Date().toISOString() })
+        .eq("id", pitchId);
 
-  if (error) {
-    console.error("Error updating pitch:", error.message);
-    alert("Failed to save changes.");
-    return;
-  }
+    if (error) {
+        console.error("Error updating pitch:", error.message);
+        //alert("Failed to save changes.");
+        return {"status":"danger","message":"Failed to save changes"};;
+    }
 
-  console.log("Pitch updated:", data);
-  alert("Changes saved successfully!");
+    console.log("Pitch updated:", data);
+    return {"status":"success","message":"Changes saved successfully."};
 }
 
 export async function deletePitchFromDb(pitchId:string) {
@@ -89,9 +91,10 @@ export async function deletePitchFromDb(pitchId:string) {
 
   if (error) {
     console.error("Error deleting pitch:", error.message);
-    alert("Failed to delete pitch.");
-    return;
+    //alert("Failed to delete pitch.");
+    return {"status":"danger","message":"Failed to delete pitch."};
   }
 
-  alert("Pitch deleted successfully!");
+  //alert("Pitch deleted successfully!");
+  return {"status":"success","message":"Pitch deleted successfully"};
 }

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { savePitchToDB } from "@/lib/pitch-db";
 import supabase from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function GeneratePitchCard() {
   const [title, setTitle] = useState("");
@@ -21,6 +22,7 @@ export default function GeneratePitchCard() {
   const [generate, setGenerate]=useState(false);
   const [temp, setTemp]=useState("")
   const [saving, setSaving] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,6 +74,7 @@ export default function GeneratePitchCard() {
 
     try {
       await savePitchToDB({ title, body, user_id: user.id });
+      router.push("/dashboard");
     }
     catch(error){
         console.error("Failed to save to DB: ",error)
@@ -84,8 +87,7 @@ export default function GeneratePitchCard() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
-    
-    <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl mb-2">
+    <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl mb-5">
       <CardHeader>
         <CardTitle className="text-5xl text-center font-dancing font-bold mb-2">Write a New Pitch</CardTitle>
         <CardDescription>Fill in the details to get your pitch instantly.</CardDescription>
@@ -177,6 +179,7 @@ export default function GeneratePitchCard() {
 
         <CardFooter className="flex flex-col items-stretch space-y-4 mt-4">
           <Button type="submit" className="bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">Generate Pitch</Button>
+          {generate && <p className="font-dancing text-[#008080] text-center ">Your pitch will be gnerated below</p>}
         </CardFooter>
       </form>
     </Card>

@@ -29,8 +29,15 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     checkSession();
   }, [router, supabase]);
 
-  if (loading) {
-    return <p className="text-center mt-10">Checking authentication...</p>;
+    if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/20 backdrop-blur-sm">
+          <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin mr-4"></div>
+          <p className="text-white font-dancing text-6xl font-bold">Checking Authentication...</p>
+        </div>
+      </div>
+    );
   }
 
   return <>{children}</>;
