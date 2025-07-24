@@ -53,21 +53,21 @@ export default function Home() {
 
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Feature 1 */}
-          <div className="bg-[#f0fafa] p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <div className="bg-gradient-to-b from-teal-300 to-teal-100 p-6 rounded-2xl shadow hover:shadow-lg transition">
             <div className="text-4xl mb-4">🤖</div>
             <h3 className="text-xl font-semibold mb-2">AI-powered Pitching</h3>
             <p className="text-gray-600">Leverage smart AI to generate concise and impactful pitches effortlessly.</p>
           </div>
 
           {/* Feature 2 */}
-          <div className="bg-[#f0fafa] p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <div className="bg-gradient-to-br from-teal-300 to-teal-100 p-6 rounded-2xl shadow hover:shadow-lg transition">
             <div className="text-4xl mb-4">🎯</div>
             <h3 className="text-xl font-semibold mb-2">Audience Tailoring</h3>
             <p className="text-gray-600">Personalize pitches for investors, recruiters, or teachers with just one click.</p>
           </div>
 
           {/* Feature 3 */}
-          <div className="bg-[#f0fafa] p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <div className="bg-gradient-to-bl from-teal-300 to-teal-100 p-6 rounded-2xl shadow hover:shadow-lg transition">
             <div className="text-4xl mb-4">⚡</div>
             <h3 className="text-xl font-semibold mb-2">Fast & Simple</h3>
             <p className="text-gray-600">No clutter. Just enter your input and get results in seconds.</p>

@@ -46,7 +46,7 @@ export async function getUserPitchesWithEmail() {
   // Fetch the user's pitches
   const { data: pitches, error } = await supabase
     .from("pitches")
-    .select("title, body, created_at")
+    .select("id, title, body, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
@@ -63,4 +63,35 @@ export async function getUserPitchesWithEmail() {
     pitches,
     count: pitches.length,
   };
+}
+
+export async function saveChangesToDb(pitchId:string, newTitle:string, newBody:string) {
+  const { data, error } = await supabase
+    .from("pitches")
+    .update({ title: newTitle, body: newBody, updated_at: new Date().toISOString() })
+    .eq("id", pitchId);
+
+  if (error) {
+    console.error("Error updating pitch:", error.message);
+    alert("Failed to save changes.");
+    return;
+  }
+
+  console.log("Pitch updated:", data);
+  alert("Changes saved successfully!");
+}
+
+export async function deletePitchFromDb(pitchId:string) {
+  const { error } = await supabase
+    .from("pitches")
+    .delete()
+    .eq("id", pitchId);
+
+  if (error) {
+    console.error("Error deleting pitch:", error.message);
+    alert("Failed to delete pitch.");
+    return;
+  }
+
+  alert("Pitch deleted successfully!");
 }
