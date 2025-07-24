@@ -2,36 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import supabase from "@/lib/supabaseClient";
 import ProtectedRoute from "@/components/protectedRoute";
+import { getUserPitchesWithEmail } from "@/lib/pitch-db";
 
 export default function Dashboard() {
   const [userEmail, setUserEmail] = useState("");
   const [pitches, setPitches] = useState<any[]>([]);
+  const [count,setCount]=useState(0)
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUserAndPitches = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUserEmail(user.email || "");
-        const { data, error } = await supabase
-          .from("pitches")
-          .select("*")
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: false });
-        if (!error) {
-          setPitches(data || []);
-        }
+    const getData = async () => {
+      try {
+        const data = await getUserPitchesWithEmail();
+        setUserEmail(data?.email || "Guest");
+        setPitches(data?.pitches || []);
+        setCount(data?.count || 0);
+      } catch (error) {
+        console.error("Failed to get Data", error);
       }
     };
 
-    fetchUserAndPitches();
+    getData();
   }, []);
 
   const handleNewPitch = () => {
     router.push("/generate");
   };
+
+
 
   return (
     <ProtectedRoute>
@@ -40,11 +39,11 @@ export default function Dashboard() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-5xl font-bold mb-2 text-black font-dancing">Dashboard</h1>
-              <p className="text-gray-600">Welcome, <span className="font-medium text-teal-700">{userEmail}</span></p>
+              <p className="text-gray-600">Welcome, <span className="font-medium text-[#008080]">{userEmail}</span></p>
             </div>
             <button
               onClick={handleNewPitch}
-              className="px-6 py-3 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+              className="px-3 py-3 bg-[#008080] text-white rounded-md shadow-md hover:bg-teal-800"
             >
               + Generate New Pitch
             </button>
@@ -53,7 +52,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-center mt-6">
             <div>
               <h2 className="text-xl font-semibold text-gray-800">Total Pitches</h2>
-              <p className="text-2xl font-bold text-teal-700">{pitches.length}</p>
+              <p className="text-2xl font-bold text-[#008080]">{count}</p>
             </div>
           </div>
 
@@ -63,16 +62,16 @@ export default function Dashboard() {
               <p className="text-gray-500">You haven't generated any pitches yet.</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {pitches.map((pitch) => (
+                {pitches.map((pitch,i) => (
                   <div
-                    key={pitch.id}
-                    className="bg-white p-4 rounded-md shadow-sm border hover:shadow-md transition"
+                    key={i}
+                    className="bg-[#008080] text-white p-4 rounded-md  hover:drop-shadow-2xl transition hover:cursor-pointer"
                   >
-                    <h3 className="font-medium text-gray-900 truncate">
+                    <h3 className="font-medium truncate">
                       {pitch.title || "Untitled Pitch"}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1 truncate">{pitch.summary}</p>
-                    <p className="text-xs text-gray-400 mt-2">
+                    <p className="text-sm text-white mt-1 italic truncate">{pitch.body}</p>
+                    <p className="mt-6 text-xs text-gray-100">
                       {new Date(pitch.created_at).toLocaleString()}
                     </p>
                   </div>

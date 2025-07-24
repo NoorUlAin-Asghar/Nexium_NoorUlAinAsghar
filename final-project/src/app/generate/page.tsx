@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { savePitchToDB } from "@/lib/pitch-db";
+import supabase from "@/lib/supabaseClient";
 
 export default function GeneratePitchCard() {
   const [title, setTitle] = useState("");
@@ -18,6 +20,7 @@ export default function GeneratePitchCard() {
   const [pitch, setPitch] = useState("");
   const [generate, setGenerate]=useState(false);
   const [temp, setTemp]=useState("")
+  const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,14 +53,39 @@ export default function GeneratePitchCard() {
     }
   };
 
-  const savePitch=()=>{
-    
+  const savePitch=async()=>{
+    setSaving(true);
+    const titleMatch = pitch.match(/Title:\s*["“]?(.+?)["”]?\n/i);
+    const title = titleMatch ? titleMatch[1].trim() : "Untitled";
+    const body = pitch.replace(titleMatch?.[0] || "", "").trim();
+
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+    console.log(user)
+
+    if (!user || error) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    try {
+      await savePitchToDB({ title, body, user_id: user.id });
+    }
+    catch(error){
+        console.error("Failed to save to DB: ",error)
+    }
+    finally{
+      setSaving(false)
+    }
+
   }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
     
-    <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl">
+    <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl mb-2">
       <CardHeader>
         <CardTitle className="text-5xl text-center font-dancing font-bold mb-2">Write a New Pitch</CardTitle>
         <CardDescription>Fill in the details to get your pitch instantly.</CardDescription>
@@ -149,34 +177,37 @@ export default function GeneratePitchCard() {
 
         <CardFooter className="flex flex-col items-stretch space-y-4 mt-4">
           <Button type="submit" className="bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">Generate Pitch</Button>
-
-          { generate &&(
-            <div className="bg-transparent border-[#008080] p-4 rounded-lg text-sm whitespace-pre-wrap border">
-              {temp}
-            <div className="flex justify-center items-center mt-2 space-x-2">
-              <div className="w-4 h-4 border-2 border-[#008080] border-t-transparent rounded-full animate-spin"></div>
-              <p className="text-[#008080] font-dancing font-bold">Generating Your Pitch, Please Wait</p>
-            </div>
-            </div>)}
-          { !generate && pitch &&(
-            <>
-            <Textarea
-                id="pitch"
-                value={pitch}
-                onChange={(e) => setPitch(e.target.value)}
-                className="resize max-h-[50vh] overflow-y-auto"
-              />
-            <div className="flex justify-end mt-2">
-                <p className="text-sm text-muted-foreground italic mr-4">Feel free to make edits before saving...</p>
-                <Button onClick={savePitch} className="h-8 px-3 text-sm bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">
-                Save
-              </Button>
-          </div>
-          </>
-          ) }
         </CardFooter>
       </form>
     </Card>
-    </div>
+
+   
+      { generate &&
+          <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl mt-0 p-4">
+            <div className="bg-transparent border-[#008080] p-4 rounded-lg text-sm whitespace-pre-wrap border">
+              {temp}
+              <div className="flex justify-center items-center mt-2 space-x-2">
+                <div className="w-4 h-4 border-2 border-[#008080] border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-[#008080] font-dancing font-bold">Generating Your Pitch, Please Wait</p>
+              </div>
+            </div>
+          </Card> }
+      { !generate && pitch &&
+        <><Card className="w-full max-w-2xl mx-auto my-20 shadow-xl mt-0 p-4">
+          <Textarea
+              id="pitch"
+              value={pitch}
+              onChange={(e) => setPitch(e.target.value)}
+              className="max-h-[66vh] overflow-y-auto"
+            />
+          <div className="flex justify-end mt-2">
+              <p className="text-sm text-muted-foreground italic mr-4">Feel free to make edits before saving...</p>
+              <Button onClick={savePitch} disabled={saving} className="h-8 px-3 text-sm bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">
+                {saving ? "Saving..." : "Save"}
+              </Button>
+        </div>
+        </Card></>}
+  </div>
+
   );
 }
