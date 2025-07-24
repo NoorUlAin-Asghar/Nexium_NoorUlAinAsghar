@@ -47,9 +47,10 @@ Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You c
 ## 📂 Project Structure (Simplified)
 
 ```
-pages/
+src/
 │
-├── index.tsx           # Homepage / Dashboard
+├── page.tsx           # Homepage / Dashboard
+├── page.tsx           # Homepage / Dashboard
 ├── login.tsx           # Auth screen
 ├── doc.tsx             # Documentation Page
 ├── api/                # API route for Hugging Face interaction

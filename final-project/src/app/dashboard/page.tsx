@@ -144,7 +144,7 @@ export default function Dashboard() {
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Your Previous Pitches</h2>
             {pitches.length === 0 ? (
-              <p className="text-gray-500">You haven&apos;t generated any pitches yet.</p>
+              <p className="text-gray-500">You haven`&apos;`t generated any pitches yet.</p>
             ) : (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
