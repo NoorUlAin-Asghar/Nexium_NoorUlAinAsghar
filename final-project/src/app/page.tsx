@@ -21,7 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     const hash = window.location.hash;
-
+    //if unautherized, ask to login again
     if (hash.includes("error=access_denied") && hash.includes("otp_expired")) {
       router.replace("/sign-in?error=access_denied");
     }

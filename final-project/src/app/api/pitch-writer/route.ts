@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { title, description, type, tone } = await req.json();
 
+  //calling hugging face api
   try {
     const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
       method: "POST",
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
       }),
     });
 
-    // Check if response is JSON
+    // Check if response is JSON, if not give error
     const contentType = response.headers.get("content-type");
     if (!contentType?.includes("application/json")) {
       const html = await response.text();
@@ -32,13 +33,13 @@ export async function POST(req: Request) {
     }
 
     const result = await response.json();
-
+    //to handle error from hugging face
     if (!response.ok || result?.error) {
       const errorMessage = result?.error?.message;
       console.error("Hugging Face Error:", errorMessage);
       return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
-
+    //else return generated pitch
     const pitch = result.choices?.[0]?.message?.content ?? "No pitch generated.";
     return NextResponse.json({ pitch });
   } catch (err) {

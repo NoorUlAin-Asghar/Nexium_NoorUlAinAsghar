@@ -37,6 +37,7 @@ export default function GeneratePitchCard() {
     )
 
     try{
+      //giving call to pitch-writer to generate pitch
       const res = await fetch("/api/pitch-writer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,6 +71,7 @@ export default function GeneratePitchCard() {
     const title = titleMatch ? titleMatch[1].trim() : "Untitled";
     const body = pitch.replace(titleMatch?.[0] || "", "").trim();
 
+    //checking user authentication
     const {
       data: { user },
       error,
@@ -80,7 +82,7 @@ export default function GeneratePitchCard() {
       return;
     }
 
-    try {
+    try { //save pitch to db with correct user
       await savePitchToDB({ title, body, user_id: user.id });
       router.push("/dashboard");
     }
@@ -184,7 +186,7 @@ export default function GeneratePitchCard() {
             )}
           </div>
         </CardContent>
-
+        {/*temporary text*/}
         <CardFooter className="flex flex-col items-stretch space-y-4 mt-4">
           <Button type="submit" className="bg-[#008080] hover:bg-[#008080] cursor-pointer active:bg-transparent active:text-[#008080]">Generate Pitch</Button>
           {generate && <p className="font-dancing text-[#008080] text-center ">Your pitch will be gnerated below</p>}
@@ -192,7 +194,7 @@ export default function GeneratePitchCard() {
       </form>
     </Card>
 
-   
+      {/*generated pitch displayed*/}
       { generate &&
           <Card className="w-full max-w-2xl mx-auto my-20 shadow-xl mt-0 p-4">
             <div className="bg-transparent border-[#008080] p-4 rounded-lg text-sm whitespace-pre-wrap border">

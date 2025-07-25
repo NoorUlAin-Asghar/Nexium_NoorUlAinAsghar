@@ -27,7 +27,7 @@ type Pitch = {
   id: string;
   title: string;
   body: string;
-  created_at: Date; // or Date if you want to parse it
+  created_at: Date; 
 };
 
 
@@ -47,6 +47,7 @@ export default function Dashboard() {
     getData();
   }, []);
 
+  //show required toast message (successful or unsuccessful deletion/editing of pitch)
   useEffect(() => {
     if (status==="success")
       toast.success(message)
@@ -55,6 +56,7 @@ export default function Dashboard() {
 
   }, [message,status]);
 
+    //fetching data from db
     const getData = async () => {
     try {
       setLoading(true)
@@ -70,6 +72,7 @@ export default function Dashboard() {
     }
   };
 
+  //redirect to generate page
   const handleNewPitch = () => {
     router.push("/generate");
   };
@@ -103,6 +106,7 @@ export default function Dashboard() {
     }
   };
 
+  //loading screen
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#008080] to-[#00f5f5]">
@@ -150,7 +154,7 @@ export default function Dashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-              >
+              > {/*sheet component to edit or delete*/}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {pitches.map((pitch,i) => (
                   <Sheet key={i}>
