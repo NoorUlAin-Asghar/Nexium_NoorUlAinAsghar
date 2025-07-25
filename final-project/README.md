@@ -28,7 +28,7 @@ Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You c
 
 ## 🖥️ Live Demo
 
-🚀 [View deployed app on Vercel](https://blog-summarizer-delta.vercel.app/)
+🚀 [View deployed app on Vercel](https://pitch-writer.vercel.app/)
 
 ---
 
