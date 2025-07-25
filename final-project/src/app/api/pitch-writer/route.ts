@@ -2,42 +2,47 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { title,description,type, tone } = await req.json();
+  const { title, description, type, tone } = await req.json();
 
-  try{
+  try {
+    const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.HF_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "meta-llama/Meta-Llama-3-8B-Instruct",
+        messages: [
+          {
+            role: "user",
+            content: `Generate a pitch with Title: ${title} Description: ${description} having type: ${type} and tone: ${tone}. 
+Make sure to always give a title separately using the format: Title: "..." and then the pitch on the next line.`,
+          },
+        ],
+      }),
+    });
 
-	const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
-		method: "POST",
-		headers: {
-		Authorization: `Bearer ${process.env.HF_TOKEN}`,
-		"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-		model: "mistralai/Mixtral-8x7B-Instruct-v0.1:together",
-		messages: [
-			{
-			role: "user",
-			content: `Generate a pitch with Title: ${title} Description: ${description} having type: ${type} and tone: ${tone}. make sure to always give a title separately, use the following format Title: ".." and in the next line give the remaining pitch, thankyou `,
-			},
-		],
-		}),
-	});
-
-
-	const result = await response.json();
-	 if (result.error) {
-      console.error("Hugging Face Error:", result.error);
-      return NextResponse.json({ error: result.error }, { status: 500 });
+    // Check if response is JSON
+    const contentType = response.headers.get("content-type");
+    if (!contentType?.includes("application/json")) {
+      const html = await response.text();
+      console.error("Received non-JSON response:\n", html);
+      return NextResponse.json({ error: "Non-JSON response from Hugging Face API" }, { status: 500 });
     }
 
-    const pitch = result.choices?.[0]?.message?.content || "No pitch generated.";
-	console.log("Pitch generated: " , pitch)
+    const result = await response.json();
 
+    if (!response.ok || result?.error) {
+      const errorMessage = result?.error?.message || "Model response error";
+      console.error("Hugging Face Error:", errorMessage);
+      return NextResponse.json({ error: errorMessage }, { status: 500 });
+    }
+
+    const pitch = result.choices?.[0]?.message?.content ?? "No pitch generated.";
     return NextResponse.json({ pitch });
-	}
-	catch(err){
-		console.error("Internal Server Error:", err);
-		return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-	}
-
+  } catch (err) {
+    console.error("Internal Server Error:", err);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

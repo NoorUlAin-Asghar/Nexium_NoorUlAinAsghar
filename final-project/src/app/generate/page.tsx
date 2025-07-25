@@ -46,14 +46,21 @@ export default function GeneratePitchCard() {
       });
 
         const data = await res.json();
-        console.log("Pitch received: " ,data.pitch);
-        setPitch(data.pitch)
-        setGenerate(false);
+        if (!res.ok) {
+          toast.error("Couldn't generate pitch");
+        }
+        else {
+          console.log("Pitch received: " ,data.pitch);
+          setPitch(data.pitch)
+        }
 
     }
     catch(err){
       console.log(err)
       toast.error("Couldn't generate pitch")
+    }
+    finally{
+      setGenerate(false);
     }
   };
 
@@ -67,7 +74,6 @@ export default function GeneratePitchCard() {
       data: { user },
       error,
     } = await supabase.auth.getUser();
-    console.log(user)
 
     if (!user || error) {
       console.error("User not authenticated");

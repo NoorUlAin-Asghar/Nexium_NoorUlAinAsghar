@@ -7,7 +7,7 @@ Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You c
 
 ## ✨ Features
 
-- ✍️ **Generate personalized pitches** using role, goals, and tone preferences.
+- ✍️ **Generate personalized pitches** using titlw, description, pitch type, and tone preferences.
 - 📝 **Edit and delete** generated pitches.
 - 🎨 **Customize pitch tone** (professional, casual, confident, etc.).
 - 🔒 **Private storage** via Supabase – your pitches are visible only to you.
@@ -22,7 +22,13 @@ Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You c
 - [Tailwind CSS](https://tailwindcss.com/) – Utility-first CSS framework.
 - [Framer Motion](https://www.framer.com/motion/) – For UI animations.
 - [Supabase](https://supabase.com/) – Auth + database storage.
-- [Hugging Face API](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1?client=fetch) – For AI pitch generation (Mixtral-8x7B-Instruct).
+- [Hugging Face API](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) – For AI pitch generation (Meta-Llama-3-8B-Instruct).
+
+---
+
+## 🖥️ Live Demo
+
+🚀 [View deployed app on Vercel](https://blog-summarizer-delta.vercel.app/)
 
 ---
 
@@ -44,45 +50,79 @@ Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You c
 
 ---
 
-## 📂 Project Structure (Simplified)
-
-```
-src/
-│
-├── page.tsx           # Homepage / Dashboard
-├── page.tsx           # Homepage / Dashboard
-├── login.tsx           # Auth screen
-├── doc.tsx             # Documentation Page
-├── api/                # API route for Hugging Face interaction
-└── ...
-components/
-  ├── PitchCard.tsx     # UI for each pitch block
-  └── Toast.tsx         # Notification system
-```
-
----
-
 ## 📄 Documentation
 
-See full documentation at: [`/doc`](https://your-site.vercel.app/doc)  
+See full documentation at: [`/doc`](https://pitch-writer.vercel.app/doc)  
 Or check out [`DocumentationPage.jsx`](./app/docs/page.tsx) in the codebase.
 
 ---
 
 ## 🛠️ Getting Started
 
+### 1. Clone the Repository
+
 ```bash
-git clone https://github.com/NoorUlAin-Asghar/Nexium_NoorUlAinAsghar.git
+https://github.com/NoorUlAin-Asghar/Nexium_NoorUlAinAsghar.git
 cd final-project
+```
+
+### 2. Install dependencies
+
+```bash
 npm install
+```
+
+### 3. Setup Environment Variables
+
+Create a `.env` file and add:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_ANON_KEY=your_supabase_anon_key
+HF_TOKEN=your_huggingface_token
+```
+
+### 4. Run the Development Server
+
+```bash
 npm run dev
 ```
 
-You’ll need:
-- A Supabase project
-- Supabase keys in `.env.local`
-- A Hugging Face API token
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
+---
+
+## 📂 Project Structure (Simplified)
+
+```
+├── public/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx               # Main UI
+│   │   ├── api/
+│   |   |    └── pitch-writer/
+│   |   |       └── route.js       # API route calling Meta-Llama-3-8B-Instruct on HuggingFace  
+|   |   ├── dashboard/
+│   │   |   └── page.tsx               # User's dashboard page
+|   |   ├── docs/
+│   │   |   └── page.tsx               # Contains necessary documentation realted to web app
+|   |   ├── generate/
+│   │   |   └── page.tsx               # Form to generate a customized pitch 
+|   |   └── sign-in/
+|   |       ├── page.tsx
+│   │       └── signInClient.tsx       
+|   |
+|   ├── components/
+│   │   ├── ui
+│   │   ├── navbar
+│   │   └── protectedRoute
+│   └── lib/
+│       ├── pitch-db.js             # Supabase functions (savePitchToDB, getUserPitchesWithEmail, saveChangesToDb,deletePitchFromDb)
+│       └── supabaseClient.js       # Initializes the Supabase client using the URL and anon key stored in .env
+├── .env                            # Environment variables
+└── README.md
+```
+ 
 ---
 
 ## 📎 License

@@ -17,7 +17,7 @@ export default function DocumentationPage() {
         <section className="mb-10">
           <h2 className="text-2xl font-semibold font-dancing text-[#008080] mb-2">API Used</h2>
           <p className="text-base leading-7">
-            We utilize the <Link href="https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1?client=fetch" className="text-[#008080] underline">Mixtral-8x7B-Instruct</Link> model hosted on Hugging Face. This model is used to generate natural, personalized pitch content based on user inputs.
+            We utilize the <Link href="https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct" className="text-[#008080] underline">Meta-Llama-3-8B-Instruct</Link> model hosted on Hugging Face. This model is used to generate natural, personalized pitch content based on user inputs.
           </p>
         </section>
 
