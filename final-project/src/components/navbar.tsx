@@ -76,7 +76,7 @@ export function Navbar() {
                     <Link href="/docs">Docs</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-                {isLoggedIn? 
+                {isLoggedIn?  /*if user is logged in - show dashboard*/
                 <>
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>

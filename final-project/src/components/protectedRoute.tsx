@@ -11,6 +11,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
 
+  //make sure the user is authorized.
   useEffect(() => {
     const checkSession = async () => {
       const {

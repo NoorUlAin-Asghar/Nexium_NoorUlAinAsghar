@@ -25,10 +25,12 @@ export default function SignInClient() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] =useState(false);
 
-    //handling expired login links
+    //handling expired login links and unauthorized users
     useEffect(() => {
     if (err==="access_denied")
       toast.error("Login link expired. Please sign in again.");
+    else if (err==="unauthorized")
+      toast.error("Please sign in to continue.");
   }, [err]);
   
 

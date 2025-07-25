@@ -36,8 +36,9 @@ export async function POST(req) {
     const summarizedText = result.data?.summary || "No summary returned.";
     console.log("Summarized Text:", summarizedText);
 
+    //first translate
     const urduText = await translateToUrdu(summarizedText);
-
+    //then return both summaries together
     return NextResponse.json({
       English: summarizedText,
       Urdu: urduText,
@@ -58,6 +59,7 @@ async function translateToUrdu(text) {
   let chunks = [];
   let currentChunk = "";
 
+  //since api can not handle more than 500 characters, we need to send slices of <= 500 characters
   for (let sentence of sentences) {
     const testChunk = currentChunk + sentence;
     const byteLength = encoder.encode(testChunk).length;
@@ -88,6 +90,6 @@ async function translateToUrdu(text) {
     const translated = data.responseData?.translatedText || "[❌ Translation failed]";
     translations.push(translated);
   }
-
+  //join the slices of translation
   return translations.join(" ");
 }

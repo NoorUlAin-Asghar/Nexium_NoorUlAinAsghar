@@ -59,7 +59,7 @@ export default function Home() {
 
     setLoading(true);
     setSummary(null);
-    // Check if already summarized
+    // Check if already summarized, if yes - no need to call the api, just fetch from db
     const existing = await getSummaryByUrl(url);
     if (existing) {
       setSummary({
@@ -99,7 +99,7 @@ export default function Home() {
 
       try{
         await addSummary(record.url, record.English, record.Urdu);
-        await fetchSummaries(); // fetch again after successful addition
+        await fetchSummaries(); // fetch again after successful addition to show updated page
       }
       catch(err){
         console.log("Error adding to db: ", err)
