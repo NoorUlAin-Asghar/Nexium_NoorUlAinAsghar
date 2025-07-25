@@ -16,8 +16,8 @@ export async function POST(req: Request) {
         messages: [
           {
             role: "user",
-            content: `Generate a pitch with Title: ${title} Description: ${description} having type: ${type} and tone: ${tone}. 
-Make sure to always give a title separately using the format: Title: "..." and then the pitch on the next line.`,
+            content: `Generate a ${type} pitch about Title: ${title} Description: ${description} having ${tone} tone. 
+            Make sure to always give a title separately using the format: Title: "..." and then the pitch on the next line, just give the pitch, no need to rewrite the title, description, type and tone in your response again.`,
           },
         ],
       }),
