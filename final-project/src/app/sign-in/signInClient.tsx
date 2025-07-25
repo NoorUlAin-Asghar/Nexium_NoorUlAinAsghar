@@ -36,10 +36,7 @@ export default function SignInClient() {
     setLoading(true);
 
     const { error } = await supabase.auth.signInWithOtp({ 
-      email,
-      options: {
-      emailRedirectTo: "http://localhost:3000/", // successfully redirect to their dashboard
-    },});
+      email,});
 
     if (error) {
       setMessage("Something went wrong. Please try again.");
