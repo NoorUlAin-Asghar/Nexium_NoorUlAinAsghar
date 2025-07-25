@@ -52,7 +52,7 @@ Pitch Writer is a sleek, personalized pitch generation tool powered by AI. You c
 
 ## 📄 Documentation
 
-See full documentation at: [`/doc`](https://pitch-writer.vercel.app/doc)  
+See full documentation at: [`/docs`](https://pitch-writer.vercel.app/docs)  
 Or check out [`DocumentationPage.jsx`](./app/docs/page.tsx) in the codebase.
 
 ---
@@ -95,32 +95,33 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📂 Project Structure (Simplified)
 
 ```
-├── public/
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx               # Main UI
+│   │   ├── page.tsx                  # Main landing page UI.
 │   │   ├── api/
-│   |   |    └── pitch-writer/
-│   |   |       └── route.js       # API route calling Meta-Llama-3-8B-Instruct on HuggingFace  
-|   |   ├── dashboard/
-│   │   |   └── page.tsx               # User's dashboard page
-|   |   ├── docs/
-│   │   |   └── page.tsx               # Contains necessary documentation realted to web app
-|   |   ├── generate/
-│   │   |   └── page.tsx               # Form to generate a customized pitch 
-|   |   └── sign-in/
-|   |       ├── page.tsx
-│   │       └── signInClient.tsx       
-|   |
-|   ├── components/
-│   │   ├── ui
-│   │   ├── navbar
-│   │   └── protectedRoute
+│   │   │   └── pitch-writer/
+│   │   │       └── route.js          # API route calling Hugging Face model to generate pitches.
+│   │   ├── dashboard/
+│   │   │   └── page.tsx              # Displays user's saved/generated pitches.
+│   │   ├── docs/
+│   │   │   └── page.tsx              # Documentation or instructions for the web app.
+│   │   ├── generate/
+│   │   │   └── page.tsx              # Form interface for input to generate a pitch.
+│   │   └── sign-in/
+│   │       ├── page.tsx              # Sign-in UI for user authentication.
+│   │       └── signInClient.tsx      # Handles Supabase sign-in logic.
+│   |
+│   ├── components/
+│   │   ├── ui/                       # Reusable UI elements like buttons and inputs.
+│   │   ├── navbar/                   # Navigation bar component for app-wide use.
+│   │   └── protectedRoute/           # Guards pages requiring authentication.
+│   |
 │   └── lib/
-│       ├── pitch-db.js             # Supabase functions (savePitchToDB, getUserPitchesWithEmail, saveChangesToDb,deletePitchFromDb)
-│       └── supabaseClient.js       # Initializes the Supabase client using the URL and anon key stored in .env
-├── .env                            # Environment variables
-└── README.md
+│       ├── pitch-db.js               # Supabase DB functions (save, fetch, update, delete pitch).
+│       └── supabaseClient.js         # Initializes Supabase client with environment credentials.
+│
+├── .env                              # Environment variables (API keys, Supabase config).
+└── README.md                         # Project overview, setup guide, and usage instructions.
 ```
  
 ---
