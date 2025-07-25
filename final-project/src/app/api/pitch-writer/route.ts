@@ -34,7 +34,7 @@ Make sure to always give a title separately using the format: Title: "..." and t
     const result = await response.json();
 
     if (!response.ok || result?.error) {
-      const errorMessage = result?.error?.message || "Model response error";
+      const errorMessage = result?.error?.message;
       console.error("Hugging Face Error:", errorMessage);
       return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
